@@ -1,8 +1,9 @@
 <?php
 
-namespace Lle\BpmBundle\Trigger;
+namespace Lle\BpmBundle\Service;
 
 use Lle\BpmBundle\TriggerRepository;
+use Lle\BpmBundle\Service\TriggerExecutor;
 
 class BpmExecutor {
 
@@ -14,10 +15,10 @@ class BpmExecutor {
 
   public function execute(Object $object)
   {
+    $triggerExecutor = new TriggerExecutor();
+
     foreach($repo->findAll() as $trigger) {
-      $concreteTrigger = new $trigger->getClassName();
-      $concreteTrigger->setParameters($trigger->getParameters());
-      if ($concreteTrigger->shouldExecute($object)) {
+      if ($triggerExecutor->shouldExecute($trigger, $object)) {
         foreach($trigger->getActions() as $action) {
           $concreteAction = new $action->getClassName();
           $concreteAction->setParameters($action->getParameters());
