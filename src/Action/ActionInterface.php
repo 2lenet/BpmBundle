@@ -7,6 +7,7 @@ namespace Lle\BpmBundle\Action;
  */
 interface ActionInterface
 {
-  public function execute($object);
+  public function execute(Object $object);
+  public function setParameters(array $parameters);
   public function getJsonSchema();
 }
