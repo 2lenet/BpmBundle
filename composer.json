@@ -1,0 +1,35 @@
+{
+    "name": "2lenet/bpm-bundle",
+    "type": "symfony-bundle",
+    "description": "The 2LE's bpmbundle. Manage buisness process based on workflow",
+    "keywords": ["lle", "workflow", "bpm"],
+    "homepage": "http://www.2le.net",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "2LE Team",
+            "homepage": "http://www.2le.net/",
+            "email": "support@2le.net"
+        }
+    ],
+    "require": {
+	      "php": ">=7.1",
+        "symfony/orm-pack": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "target-dir": "Lle/BpmBundle",
+    "autoload": {
+        "psr-4": {
+            "Lle\\MailerBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lle\\BpmBundle\\Tests\\": "tests/"
+        }
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "^7.2@dev"
+    }
+}
