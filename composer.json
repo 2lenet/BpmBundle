@@ -17,7 +17,6 @@
         "symfony/orm-pack": "dev-master"
     },
     "minimum-stability": "dev",
-    "target-dir": "Lle/BpmBundle",
     "autoload": {
         "psr-4": {
             "Lle\\BpmBundle\\": "src/"
