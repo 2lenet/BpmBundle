@@ -2,6 +2,8 @@
 
 namespace Lle\BpmBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Trigger
  *
