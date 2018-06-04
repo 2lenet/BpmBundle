@@ -5,6 +5,12 @@
     "keywords": ["lle", "workflow", "bpm"],
     "homepage": "http://www.2le.net",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/2lenet/BpmBundle.git"
+        }
+    ],
     "authors": [
         {
             "name": "2LE Team",
@@ -14,7 +20,7 @@
     ],
     "require": {
 	      "php": ">=7.1",
-        "symfony/orm-pack": "dev-master"
+        "symfony/orm-pack": "*"
     },
     "minimum-stability": "dev",
     "autoload": {
