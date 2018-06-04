@@ -20,7 +20,7 @@
     "target-dir": "Lle/BpmBundle",
     "autoload": {
         "psr-4": {
-            "Lle\\MailerBundle\\": "src/"
+            "Lle\\BpmBundle\\": "src/"
         }
     },
     "autoload-dev": {
