@@ -16,6 +16,15 @@ use Doctrine\ORM\Mapping as ORM;
 class Trigger
 {
 
+
+    /**
+     * @var int
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
     /**
      * @var string
      *
@@ -45,6 +54,14 @@ class Trigger
     public function __construct()
     {
       $this->actions = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     /**
