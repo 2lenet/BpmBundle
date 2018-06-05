@@ -9,6 +9,6 @@ interface TriggerInterface
 {
   public function supports($state);
   public function setParameters(array $parameters);
-  public function shouldExecute(Object $object);
+  public function shouldExecute($object);
   public static function getJsonSchema();
 }

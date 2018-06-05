@@ -1,7 +1,7 @@
 <?php
 
 namespace Lle\BpmBundle\Entity;
-
+use Doctrine\ORM\Mapping as ORM;
 /**
  * Trigger
  *

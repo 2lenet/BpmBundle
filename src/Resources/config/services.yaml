@@ -1,11 +1,11 @@
+parameters:
+
 services:
 
-  _defaults:
-    autowire: true
-    public: true
-    autoconfigure: true
+    _defaults:
+        autowire: true
+        public: true
+        autoconfigure: true
 
-  lle.bpm.command.execute:
-    class: Lle\BpmBundle\Command\BpmExecuteCommand
-          tags:
-              -  { name: console.command, command: bpm:execute }
+    Lle\BpmBundle\Command\:
+        resource: '../../Command'
