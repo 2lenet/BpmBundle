@@ -2,47 +2,50 @@
 
 namespace Lle\BpmBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
+
+use Doctrine\ORM\EntityManagerInterface;
+use Lle\BpmBundle\Service\TriggerExecutor;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Command\Command;
 
-final class BpmExecuteCommand extends ContainerAwareCommand
+final class BpmExecuteCommand extends Command
 {
-    protected static $defaultName = 'bpm:execute';
+    private $em = null;
+    private $executor = null;
 
-
-    public function __construct()
+    public function __construct(EntityManagerInterface $em, TriggerExecutor $executor)
     {
+        $this->em = $em;
+        $this->executor = $executor;
         parent::__construct('bpm:execute');
-
     }
 
     protected function configure()
     {
         $this
-            ->setName('bpm:execute')
-            ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->setDescription('Execute trigger')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
 
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
+        foreach($this->em->getMetadataFactory()->getAllMetadata() as $metaDataEntity){
+            /* @var \Doctrine\ORM\Mapping\ClassMetadata $metaDataEntity */
+            $io->note('Looking trigger for' . $metaDataEntity->getName());
+            if(!$metaDataEntity->getReflectionClass()->isAbstract()) {
+                //TODO you can use an annotation or interface for pass only the entity annot or implements
+                //TODO findAll is too big request
+                foreach ($this->em->getRepository($metaDataEntity->getName())->findAll() as $object) {
+                    $this->executor->execute($object);
+                }
+            }
         }
 
-        if ($input->getOption('option1')) {
-            // ...
-        }
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $io->success('Success');
     }
 }

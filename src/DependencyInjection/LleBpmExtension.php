@@ -16,6 +16,7 @@ class LleBpmExtension extends Extension
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
+        $loader->load('form.yaml');
 
         $configuration = new Configuration();
         $processedConfig =  $this->processConfiguration($configuration, $configs);

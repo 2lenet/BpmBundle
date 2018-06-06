@@ -1,0 +1,19 @@
+parameters:
+
+services:
+
+    _defaults:
+        autowire: true
+        public: true
+        autoconfigure: true
+
+    Lle\BpmBundle\Form\Type\JsonType:
+        tags: [form.type]
+
+    Lle\BpmBundle\Form\Type\TriggerChoiceType:
+        arguments: ["@bpm.service.trigger.chain"]
+        tags: [form.type]
+
+    Lle\BpmBundle\Form\Type\ActionChoiceType:
+        arguments: ["@bpm.service.action.chain"]
+        tags: [form.type]

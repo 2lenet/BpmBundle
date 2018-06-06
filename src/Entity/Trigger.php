@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Trigger
  *
  * @ORM\Table(name="lle_bpm_trigger")
- * @ORM\Entity(repositoryClass="Lle\BpmBundle\Entity\TriggerRepository")
+ * @ORM\Entity(repositoryClass="Lle\BpmBundle\Repository\TriggerRepository")
  */
 
 class Trigger
@@ -24,6 +24,13 @@ class Trigger
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string")
+     */
+    private $name;
 
     /**
      * @var string
@@ -42,18 +49,23 @@ class Trigger
     /**
      * @var string
      *
-     * @ORM\Column(name="active", type="boolean")
+     * @ORM\Column(name="active", type="boolean", nullable=true)
      */
     private $active;
 
     /**
-     * @ORM\OneToMany(targetEntity="Action",mappedBy="trigger", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Action",inversedBy="triggers", cascade={"persist"})
+     * @ORM\JoinTable(name="lle_bpm_trigger_action")
      */
     private $actions;
 
     public function __construct()
     {
       $this->actions = new ArrayCollection();
+    }
+
+    public function __toString(){
+        return (string) $this->getName();
     }
 
     /**
@@ -159,5 +171,31 @@ class Trigger
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function addAction(Action $action){
+        $this->actions->add($action);
+    }
+
+    public function removeAction(Action $action)
+    {
+        $this->actions->removeElement($action);
+    }
+
 
 }

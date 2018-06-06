@@ -1,42 +1,51 @@
 <?php
 
 namespace Lle\BpmBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * Trigger
  *
  * @ORM\Table(name="lle_bpm_action")
- * @ORM\Entity(repositoryClass="Lle\BpmBundle\Entity\ActionRepository")
+ * @ORM\Entity(repositoryClass="Lle\BpmBundle\Repository\ActionRepository")
  */
 
 class Action
 {
 
-/**
- * @var string
- *
- * @ORM\Column(name="className", type="string")
- */
-private $className;
 
-/**
- * @var string
- *
- * @ORM\Column(name="parameters", type="json")
- */
-private $parameters;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string")
+     */
+    private $name;
 
-/**
- * @var string
- *
- * @ORM\Column(name="active", type="boolean")
- */
-private $active;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="className", type="string")
+     */
+    private $className;
 
-/**
- * @ORM\ManyToOne(targetEntity="Trigger", inversedBy="actions", cascade={"persist"})
- */
-private $trigger;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parameters", type="json")
+     */
+    private $parameters;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="active", type="boolean", nullable=true)
+     */
+    private $active;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Trigger",mappedBy="actions", cascade={"persist"})
+     */
+    private $triggers;
 
 
     /**
@@ -46,6 +55,15 @@ private $trigger;
      * @ORM\Column(type="integer")
      */
     private $id;
+
+
+    public function __toString(){
+        return (string) $this->getName();
+    }
+
+    public function __construct(){
+        $this->triggers = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -132,9 +150,9 @@ private $trigger;
      *
      * @return mixed
      */
-    public function getTrigger()
+    public function getTriggers()
     {
-        return $this->trigger;
+        return $this->triggers;
     }
 
     /**
@@ -144,11 +162,37 @@ private $trigger;
      *
      * @return self
      */
-    public function setTrigger($trigger)
+    public function setTriggers($triggers)
     {
-        $this->trigger = $trigger;
+        $this->triggers = $triggers;
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function addTrigger(Trigger $trigger){
+        $this->triggers->add($trigger);
+    }
+
+    public function removeTrigger(Trigger $trigger){
+        $this->triggers->removeElement($trigger);
+    }
+
+
 
 }

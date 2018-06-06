@@ -4,8 +4,26 @@ services:
 
     _defaults:
         autowire: true
-        public: true
+        public: false
         autoconfigure: true
 
     Lle\BpmBundle\Command\:
         resource: '../../Command'
+
+    Lle\BpmBundle\Repository\:
+        resource: '../../Repository'
+
+    bpm.service.trigger.chain:
+        class:  Lle\BpmBundle\Service\Tag\TriggerChain
+        arguments: [!tagged lle.bpm.trigger]
+    Lle\BpmBundle\Service\Tag\TriggerChain: '@bpm.service.trigger.chain'
+
+    bpm.service.action.chain:
+        class:  Lle\BpmBundle\Service\Tag\ActionChain
+        arguments: [!tagged lle.bpm.action]
+    Lle\BpmBundle\Service\Tag\ActionChain: '@bpm.service.action.chain'
+
+    bpm.service.trigger_executor:
+        class: Lle\BpmBundle\Service\TriggerExecutor
+        arguments: ["@bpm.service.trigger.chain", "@bpm.service.action.chain", "@doctrine.orm.entity_manager"]
+    Lle\BpmBundle\Service\TriggerExecutor: '@bpm.service.trigger_executor'
