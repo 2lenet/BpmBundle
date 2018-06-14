@@ -1,0 +1,41 @@
+{% block trigger_choice_widget %}
+    {{- block('choice_widget') -}}
+    {%  if json_field %}
+        <script>
+            $(function() {
+                var {{ id }}init = {%  if(value) %}false{%  else %}true{%  endif %};
+                $('#{{ id }}').change(function (e) {
+                    $.ajax({
+                        url: "{{ path("bpm_trigger") }}",
+                        data: {"class_name": $(this).val()},
+                        method: "POST"
+                    }).done(function (data) {
+                        {{ json_field }}_load(({{ id }}init)? data.default:null, data.schema);
+                        {{ id }}init = true;
+                    });
+                });
+                $('#{{ id }}').change();
+            });
+        </script>
+    {%  endif %}
+{%  endblock %}
+
+{% block action_choice_widget %}
+    {{- block('choice_widget') -}}
+    {%  if json_field %}
+        <script>
+            $(function() {
+                $('#{{ id }}').change(function (e) {
+                    $.ajax({
+                        url: "{{ path("bpm_action") }}",
+                        data: {"class_name": $(this).val()},
+                        method: "POST"
+                    }).done(function (data) {
+                        {{ json_field }}_load(data.default, data.schema);
+                    });
+                });
+                $('#{{ id }}').change();
+            });
+        </script>
+    {%  endif %}
+{%  endblock %}

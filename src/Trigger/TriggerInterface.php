@@ -12,5 +12,6 @@ interface TriggerInterface
     public function shouldExecute($object);
     
     public static function getJsonSchema();
+    public static function getJsonDefault();
     public static function getName();
 }

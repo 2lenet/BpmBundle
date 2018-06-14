@@ -4,6 +4,8 @@ namespace Lle\BpmBundle\Form\Type;
 use Lle\BpmBundle\Service\Tag\TriggerChain;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TriggerChoiceType extends AbstractType {
@@ -24,6 +26,7 @@ class TriggerChoiceType extends AbstractType {
     {
         return 'lle.bpm.trigger_choice';
     }
+    
 
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -33,8 +36,13 @@ class TriggerChoiceType extends AbstractType {
             $choices[ucfirst($trigger::getName())] = $k;
         }
         $resolver->setDefaults(array(
-            'choices' => $choices,
+            "choices" => $choices,
+            "json_field" => null
         ));
+    }
+
+    public function buildView(FormView $view, FormInterface $form, array $options){
+        $view->vars['json_field'] = str_replace($view->vars['name'], $options['json_field'], $view->vars['id']);
     }
 
 }

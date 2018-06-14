@@ -1,0 +1,21 @@
+
+parameters:
+    bpm.action.trigger.class: Lle\BpmBundle\Service\Action\TriggerAction
+    bpm.action.action.class: Lle\BpmBundle\Service\Action\ActionAction
+
+
+services:
+
+    _defaults:
+        autowire: true
+        public: false
+
+    bpm.action.trigger:
+        class: '%bpm.action.trigger.class%'
+        arguments: ["@bpm.service.trigger.chain"]
+        tags: [controller.service_arguments]
+
+    bpm.action.action:
+        class: '%bpm.action.action.class%'
+        arguments: ["@bpm.service.action.chain"]
+        tags: [controller.service_arguments]

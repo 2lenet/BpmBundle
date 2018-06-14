@@ -10,5 +10,6 @@ interface ActionInterface
     public function execute($object);
     public function setParameters(array $parameters);
     public static function getJsonSchema();
+    public static function getJsonDefault();
     public static function getName();
 }

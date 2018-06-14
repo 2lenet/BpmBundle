@@ -1,0 +1,9 @@
+bpm_trigger:
+    path:      /bpm/trigger
+    defaults:
+        _controller: bpm.action.trigger
+
+bpm_action:
+    path:      /bpm/action
+    defaults:
+        _controller: bpm.action.action

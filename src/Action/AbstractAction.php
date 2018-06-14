@@ -1,10 +1,10 @@
 <?php
 
-namespace Lle\BpmBundle\Trigger;
+namespace Lle\BpmBundle\Action;
 
 use Lle\BpmBundle\Action\ActionInterface;
 
-abstract class AbstractTrigger implements ActionInterface
+abstract class AbstractAction implements ActionInterface
 {
     private $parameters;
 
@@ -18,7 +18,16 @@ abstract class AbstractTrigger implements ActionInterface
         $this->parameters = $parameters;
     }
 
+    public function getParameter($key, $defaultValue = null){
+        return $this->parameters[$key] ?? $defaultValue;
+    }
+
     public static function getJsonSchema()
+    {
+        return "{}";
+    }
+
+    public static function getJsonDefault()
     {
         return "{}";
     }

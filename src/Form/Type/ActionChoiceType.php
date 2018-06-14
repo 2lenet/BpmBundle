@@ -4,6 +4,8 @@ namespace Lle\BpmBundle\Form\Type;
 use Lle\BpmBundle\Service\Tag\ActionChain;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ActionChoiceType extends AbstractType {
@@ -33,8 +35,13 @@ class ActionChoiceType extends AbstractType {
             $choices[ucfirst($action::getName())] = $k;
         }
         $resolver->setDefaults(array(
-            'choices' => $choices,
+            "choices" => $choices,
+            "json_field" => null
         ));
+    }
+
+    public function buildView(FormView $view, FormInterface $form, array $options){
+        $view->vars['json_field'] = str_replace($view->vars['name'], $options['json_field'], $view->vars['id']);
     }
 
 }

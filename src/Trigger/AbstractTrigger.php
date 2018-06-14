@@ -2,24 +2,32 @@
 
 namespace Lle\BpmBundle\Trigger;
 
-use Lle\BpmBundle\Trigger\TriggerInterface;
 
 abstract class AbstractTrigger implements TriggerInterface
 {
-  private $parameters;
+    private $parameters;
 
-  public function supports($state)
-  {
-    return true;
-  }
+    public function supports($state)
+    {
+        return true;
+    }
 
-  public function setParameters(array $parameters)
-  {
-    $this->parameters = $parameters;
-  }
+    public function setParameters(array $parameters)
+    {
+        $this->parameters = $parameters;
+    }
 
-  public static function getJsonSchema()
-  {
-    return "{}";
-  }
+    public function getParameter($key, $defaultValue = null){
+        return $this->parameters[$key] ?? $defaultValue;
+    }
+
+    public static function getJsonSchema()
+    {
+        return "{}";
+    }
+
+    public static function getJsonDefault()
+    {
+        return "{}";
+    }
 }
