@@ -62,14 +62,14 @@ class Trigger
     /**
      * @var string
      *
-     * @ORM\Column(name="from", type="string")
+     * @ORM\Column(name="from_status", type="string")
      */
     private $from;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="to", type="string")
+     * @ORM\Column(name="to_status", type="string")
      */
     private $to;
 
