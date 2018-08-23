@@ -14,12 +14,16 @@ class TriggerExecutor {
     private $triggerChain;
     private $actionChain;
     private $triggerRepository;
-    
+     /**
+     * @var EntityManagerInterface 
+     */
+    private $em;
 
-    public function __construct(TriggerChain $triggerChain, ActionChain $actionChain, EntityManagerInterface $em){
+    public function __construct(TriggerChain $triggerChain, ActionChain $actionChain, EntityManagerInterface $em ){
         $this->triggerRepository = $em->getRepository(Trigger::class);
         $this->triggerChain = $triggerChain;
         $this->actionChain = $actionChain;
+        $this->em = $em;
     }
 
     public function execute($object)
@@ -36,7 +40,10 @@ class TriggerExecutor {
                     $typeAction->execute($object);
                 }
                 $object->setEtat($trigger->getTo());
+                $this->em->persist($object);
+                                
             }
         }
+        $this->em->flush();
     }
 }
