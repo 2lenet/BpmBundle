@@ -42,7 +42,7 @@ class Trigger
     /**
      * @var string
      *
-     * @ORM\Column(name="parameters", type="json")
+     * @ORM\Column(name="parameters", type="json", nullable=true)
      */
     private $parameters;
 

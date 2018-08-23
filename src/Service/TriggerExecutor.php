@@ -28,13 +28,14 @@ class TriggerExecutor {
             /* @var \Lle\BpmBundle\Entity\Trigger $trigger */
             $typeTrigger = $this->triggerChain->getTrigger($trigger->getClassName());
             $typeTrigger->setParameters($trigger->getParameters() ?? []);
-            if($typeTrigger->shouldExecute($object)){
+            if ( $object->getEtat()==$trigger->getFrom() && $typeTrigger->shouldExecute($object)){
                 foreach($trigger->getActions() as $action){
                     /* @var \Lle\BpmBundle\Entity\Action $action */
                     $typeAction = $this->actionChain->getAction($action->getClassName());
                     $typeAction->setParameters($action->getParameters() ?? []);
                     $typeAction->execute($object);
                 }
+                $object->setEtat($trigger->getTo());
             }
         }
     }

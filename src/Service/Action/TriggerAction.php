@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 final class TriggerAction
 {
 
-
     private $triggerChain;
 
     public function __construct(TriggerChain $triggerChain){
