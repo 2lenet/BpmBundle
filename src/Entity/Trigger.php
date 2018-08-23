@@ -59,6 +59,21 @@ class Trigger
      */
     private $actions;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="from", type="string")
+     */
+    private $from;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="to", type="string")
+     */
+    private $to;
+
+
     public function __construct()
     {
       $this->actions = new ArrayCollection();
@@ -198,4 +213,52 @@ class Trigger
     }
 
 
+
+    /**
+     * Get the value of from
+     *
+     * @return  string
+     */ 
+    public function getFrom()
+    {
+        return $this->from;
+    }
+
+    /**
+     * Set the value of from
+     *
+     * @param  string  $from
+     *
+     * @return  self
+     */ 
+    public function setFrom(string $from)
+    {
+        $this->from = $from;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of to
+     *
+     * @return  string
+     */ 
+    public function getTo()
+    {
+        return $this->to;
+    }
+
+    /**
+     * Set the value of to
+     *
+     * @param  string  $to
+     *
+     * @return  self
+     */ 
+    public function setTo(string $to)
+    {
+        $this->to = $to;
+
+        return $this;
+    }
 }
