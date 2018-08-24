@@ -36,7 +36,7 @@ class TriggerExecutor {
     
     public function executeOne($object, $triggerCode)
     {
-        $trigger = $this->triggerRepository->findOne($triggerCode);
+        $trigger = $this->triggerRepository->findOneByCode($triggerCode);
         $this->executeTrigger($object, $trigger);        
         $this->em->flush();
     }    
