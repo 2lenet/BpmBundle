@@ -35,6 +35,13 @@ class Trigger
     /**
      * @var string
      *
+     * @ORM\Column(name="code", type="string")
+     */
+    private $code;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="className", type="string")
      */
     private $className;
@@ -258,6 +265,30 @@ class Trigger
     public function setTo(string $to)
     {
         $this->to = $to;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of code
+     *
+     * @return  string
+     */ 
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set the value of code
+     *
+     * @param  string  $code
+     *
+     * @return  self
+     */ 
+    public function setCode(string $code)
+    {
+        $this->code = $code;
 
         return $this;
     }

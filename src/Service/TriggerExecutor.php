@@ -29,21 +29,32 @@ class TriggerExecutor {
     public function execute($object)
     {
         foreach($this->triggerRepository->findAll() as $trigger){
-            /* @var \Lle\BpmBundle\Entity\Trigger $trigger */
-            $typeTrigger = $this->triggerChain->getTrigger($trigger->getClassName());
-            $typeTrigger->setParameters($trigger->getParameters() ?? []);
-            if ( $object->getEtat()==$trigger->getFrom() && $typeTrigger->shouldExecute($object)){
-                foreach($trigger->getActions() as $action){
-                    /* @var \Lle\BpmBundle\Entity\Action $action */
-                    $typeAction = $this->actionChain->getAction($action->getClassName());
-                    $typeAction->setParameters($action->getParameters() ?? []);
-                    $typeAction->execute($object);
-                }
-                $object->setEtat($trigger->getTo());
-                $this->em->persist($object);
-                                
-            }
+            $this->executeTrigger($object, $trigger);        
         }
         $this->em->flush();
+    }
+    
+    public function executeOne($object, $triggerCode)
+    {
+        $trigger = $this->triggerRepository->findOne($triggerCode);
+        $this->executeTrigger($object, $trigger);        
+        $this->em->flush();
+    }    
+    
+    public function executeTrigger($object, $trigger)
+    {
+        $typeTrigger = $this->triggerChain->getTrigger($trigger->getClassName());
+        $typeTrigger->setParameters($trigger->getParameters() ?? []);
+        if ( $object->getEtat()==$trigger->getFrom() && $typeTrigger->shouldExecute($object)){
+            foreach($trigger->getActions() as $action){
+                /* @var \Lle\BpmBundle\Entity\Action $action */
+                $typeAction = $this->actionChain->getAction($action->getClassName());
+                $typeAction->setParameters($action->getParameters() ?? []);
+                $typeAction->execute($object);
+            }
+            $object->setEtat($trigger->getTo());
+            $this->em->persist($object);
+                            
+        }
     }
 }
