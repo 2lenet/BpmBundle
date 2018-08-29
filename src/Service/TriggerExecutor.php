@@ -37,8 +37,11 @@ class TriggerExecutor {
     public function executeOne($object, $triggerCode)
     {
         $trigger = $this->triggerRepository->findOneByCode($triggerCode);
-        $this->executeTrigger($object, $trigger);        
-        $this->em->flush();
+        if ($this->executeTrigger($object, $trigger)) {        
+            $this->em->flush();
+            return true;
+        }
+        return false;
     }    
     
     public function executeTrigger($object, $trigger)
@@ -54,7 +57,8 @@ class TriggerExecutor {
             }
             $object->setEtat($trigger->getTo());
             $this->em->persist($object);
-                            
+            return true;    
         }
+        return false;
     }
 }
