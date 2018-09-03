@@ -56,6 +56,7 @@ class TriggerExecutor {
                 $typeAction->execute($object);
             }
             $object->setEtat($trigger->getTo());
+            $object->setEtatUpdatedAt(new \Datetime());
             $this->em->persist($object);
             return true;    
         }
