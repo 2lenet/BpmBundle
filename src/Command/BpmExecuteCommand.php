@@ -32,20 +32,7 @@ final class BpmExecuteCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-
-        foreach($this->em->getMetadataFactory()->getAllMetadata() as $metaDataEntity){
-            /* @var \Doctrine\ORM\Mapping\ClassMetadata $metaDataEntity */
-            $io->note('Looking trigger for' . $metaDataEntity->getName());
-            if(!$metaDataEntity->getReflectionClass()->isAbstract()) {
-                //TODO you can use an annotation or interface for pass only the entity annot or implements
-                //TODO findAll is too big request
-                foreach ($this->em->getRepository($metaDataEntity->getName())->findAll() as $object) {
-                    $this->executor->execute($object);
-                }
-            }
-        }
-
-
+        $this->executor->executeAll();
         $io->success('Success');
     }
 }

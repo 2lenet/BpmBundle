@@ -35,7 +35,7 @@ class TriggerExecutor {
     public function executeTriggerOnRepo($trigger)
     {
         $i = 0;
-        foreach($this->em->getRepository($trigger->getEntityClass())->findByEtat($trigger->getSource()) as $object) {
+        foreach($this->em->getRepository($trigger->getEntityClass())->findByEtat($trigger->getFrom()) as $object) {
             $this->executeTrigger($object, $trigger);
             if ($i++ % 50 == 0) {
                 $this->em->flush();
