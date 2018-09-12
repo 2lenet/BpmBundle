@@ -49,6 +49,13 @@ class Trigger
     /**
      * @var string
      *
+     * @ORM\Column(name="entity_class", type="string")
+     */
+    private $entityClass;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="parameters", type="json", nullable=true)
      */
     private $parameters;
@@ -289,6 +296,30 @@ class Trigger
     public function setCode(string $code)
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of entityClass
+     *
+     * @return  string
+     */ 
+    public function getEntityClass()
+    {
+        return $this->entityClass;
+    }
+
+    /**
+     * Set the value of entityClass
+     *
+     * @param  string  $entityClass
+     *
+     * @return  self
+     */ 
+    public function setEntityClass(string $entityClass)
+    {
+        $this->entityClass = $entityClass;
 
         return $this;
     }
