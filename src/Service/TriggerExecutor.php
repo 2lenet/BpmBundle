@@ -29,7 +29,7 @@ class TriggerExecutor {
     public function executeAll()
     {
         foreach($this->triggerRepository->findAll() as $trigger) {
-            $this->executeTrigger($trigger);
+            $this->executeTriggerOnRepo($trigger);
         }
     }
     public function executeTriggerOnRepo($trigger)
