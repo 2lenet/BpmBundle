@@ -68,10 +68,12 @@ class TriggerExecutor {
         $typeTrigger->setParameters($trigger->getParameters() ?? []);
         if ( $object->getEtat()==$trigger->getFrom() && $typeTrigger->shouldExecute($object)){
             foreach($trigger->getActions() as $action){
-                /* @var \Lle\BpmBundle\Entity\Action $action */
-                $typeAction = $this->actionChain->getAction($action->getClassName());
-                $typeAction->setParameters($action->getParameters() ?? []);
-                $typeAction->execute($object);
+                if ($action->getActive()) {
+                    /* @var \Lle\BpmBundle\Entity\Action $action */
+                    $typeAction = $this->actionChain->getAction($action->getClassName());
+                    $typeAction->setParameters($action->getParameters() ?? []);
+                    $typeAction->execute($object);
+                }
             }
             $object->setEtat($trigger->getTo());
             $object->setEtatUpdatedAt(new \Datetime());
