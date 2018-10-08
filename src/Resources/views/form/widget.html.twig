@@ -32,7 +32,7 @@
                         data: {"class_name": $(this).val()},
                         method: "POST"
                     }).done(function (data) {
-                        {{ json_field }}_load(({{ id }}init)? data.default:null, data.schema));
+                        {{ json_field }}_load(({{ id }}init)? data.default:null, data.schema);
                         {{ id }}init = true;
                     });
                 });
