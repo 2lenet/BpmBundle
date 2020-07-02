@@ -90,9 +90,9 @@ class Trigger
     /**
      * @var boolean
      *
-     * @ORM\Column(name="est_automatique", type="boolean")
+     * @ORM\Column(name="is_automatic", type="boolean")
      */
-    private $estAutomatique;
+    private $isAutomatic;
 
     /**
      * Trigger constructor.
@@ -337,16 +337,16 @@ class Trigger
     /**
      * @return bool
      */
-    public function isAutomatique(): bool
+    public function isAutomatic(): bool
     {
-        return $this->estAutomatique;
+        return $this->isAutomatic;
     }
 
     /**
-     * @param bool $estAutomatique
+     * @param bool $isAutomatic
      */
-    public function setAutomatique(bool $estAutomatique): void
+    public function setAutomatique(bool $isAutomatic): void
     {
-        $this->estAutomatique = $estAutomatique;
+        $this->isAutomatic = $isAutomatic;
     }
 }
