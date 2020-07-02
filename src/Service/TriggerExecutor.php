@@ -32,7 +32,8 @@ class TriggerExecutor
     public function executeAll()
     {
         foreach ($this->triggerRepository->findBy([
-            'active' => true
+            'active' => true,
+            'isAutomatic' => true
         ]) as $trigger) {
             $this->executeTriggerOnRepo($trigger);
         }
