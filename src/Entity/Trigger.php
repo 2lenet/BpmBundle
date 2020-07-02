@@ -87,7 +87,16 @@ class Trigger
      */
     private $to;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="est_automatique", type="boolean")
+     */
+    private $estAutomatique;
 
+    /**
+     * Trigger constructor.
+     */
     public function __construct()
     {
       $this->actions = new ArrayCollection();
@@ -322,5 +331,22 @@ class Trigger
         $this->entityClass = $entityClass;
 
         return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isAutomatique(): bool
+    {
+        return $this->estAutomatique;
+    }
+
+    /**
+     * @param bool $estAutomatique
+     */
+    public function setAutomatique(bool $estAutomatique): void
+    {
+        $this->estAutomatique = $estAutomatique;
     }
 }
