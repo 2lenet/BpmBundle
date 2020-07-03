@@ -1,10 +1,13 @@
 <?php
+
 namespace Lle\BpmBundle\Service;
 
+use App\Service\Trigger\WorkflowTrigger;
 use Doctrine\ORM\EntityManagerInterface;
 use Lle\BpmBundle\Entity\Trigger;
 use Lle\BpmBundle\Service\Tag\ActionChain;
 use Lle\BpmBundle\Service\Tag\TriggerChain;
+use Lle\BpmBundle\Trigger\TriggerInterface;
 
 class TriggerExecutor
 {
@@ -14,6 +17,8 @@ class TriggerExecutor
     private $actionChain;
 
     private $triggerRepository;
+    
+    private $triggerTypes = [];
 
     /**
      *
@@ -31,24 +36,30 @@ class TriggerExecutor
 
     public function executeAll()
     {
+        /** @var Trigger $trigger */
         foreach ($this->triggerRepository->findBy([
-            'active' => true,
-            'isAutomatic' => true
+            'active' => true
         ]) as $trigger) {
-            $this->executeTriggerOnRepo($trigger);
+            $className = str_replace("/", "\\", $trigger->getClassName());
+            if ($className::isAutomatic()) {
+                $this->executeTriggerOnRepo($trigger);
+            }
         }
     }
 
-    public function executeTriggerOnRepo($trigger)
+    /**
+     * @param Trigger $trigger
+     */
+    public function executeTriggerOnRepo(Trigger $trigger)
     {
         if (!$trigger->getActive()) {
             return;
         }
         $i = 0;
         foreach ($this->em->getRepository($trigger->getEntityClass())
-            ->findByEtat($trigger->getFrom()) as $object) {
+                     ->findByEtat($trigger->getFrom()) as $object) {
             $this->executeTrigger($object, $trigger);
-            if ($i ++ % 50 == 0) {
+            if ($i++ % 50 == 0) {
                 $this->em->flush();
             }
         }
@@ -83,7 +94,7 @@ class TriggerExecutor
         if (!$trigger->getActive()) {
             return;
         }
-        $typeTrigger = $this->triggerChain->getTrigger($trigger->getClassName());
+        $typeTrigger = $this->getTriggerType($trigger);
         $typeTrigger->setParameters($trigger->getParameters() ?? []);
         if ($object->getEtat() == $trigger->getFrom() && $typeTrigger->shouldExecute($object)) {
             foreach ($trigger->getActions() as $action) {
@@ -100,5 +111,14 @@ class TriggerExecutor
             return true;
         }
         return false;
+    }
+    
+    private function getTriggerType(Trigger $trigger): TriggerInterface
+    {
+        if (!isset($this->triggerTypes[$trigger->getClassName()])) {
+            $triggerType = $this->triggerChain->getTrigger($trigger->getClassName());
+            $this->triggerTypes[$trigger->getClassName()] = $triggerType;
+        }
+        return $this->triggerTypes[$trigger->getClassName()];
     }
 }

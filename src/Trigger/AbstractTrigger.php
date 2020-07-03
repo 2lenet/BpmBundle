@@ -30,4 +30,9 @@ abstract class AbstractTrigger implements TriggerInterface
     {
         return "{}";
     }
+
+    public static function isAutomatic(): bool
+    {
+        return true;
+    }
 }

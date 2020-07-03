@@ -88,13 +88,6 @@ class Trigger
     private $to;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_automatic", type="boolean")
-     */
-    private $isAutomatic;
-
-    /**
      * Trigger constructor.
      */
     public function __construct()
@@ -333,20 +326,4 @@ class Trigger
         return $this;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isAutomatic(): bool
-    {
-        return $this->isAutomatic;
-    }
-
-    /**
-     * @param bool $isAutomatic
-     */
-    public function setAutomatique(bool $isAutomatic): void
-    {
-        $this->isAutomatic = $isAutomatic;
-    }
 }
